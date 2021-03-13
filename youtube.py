@@ -28,15 +28,15 @@ def build_df():
             video_df['category'].append(video['snippet']['categoryId'])
             video_df['views'].append(int(video['statistics']['viewCount']))
             if 'likeCount' not in video['statistics']:
-                video_df['likes'].append('na')
+                video_df['likes'].append(0)
             else:
                 video_df['likes'].append(int(video['statistics']['likeCount']))
             if 'dislikeCount' not in video['statistics']:
-                video_df['dislikes'].append('na')
+                video_df['dislikes'].append(0)
             else:
                 video_df['dislikes'].append(int(video['statistics']['dislikeCount']))
             if 'commentCount' not in video['statistics']:
-                video_df['comment_count'].append('na')
+                video_df['comment_count'].append(0)
             else:
                 video_df['comment_count'].append(int(video['statistics']['commentCount']))
     #create data frame
@@ -49,7 +49,7 @@ def build_categories_df():
         'part' : 'snippet',
         'regionCode' : 'US'
     }
-    cat = requests.get('https://www.googleapis.com/youtube/v3/videoCategories?key=your_api_key, params=parameters)
+    cat = requests.get('https://www.googleapis.com/youtube/v3/videoCategories?key=your_api_key', params=parameters)
     cat = cat.json()
     items = cat['items']
     for category in items:
@@ -69,7 +69,7 @@ def plot_likes_dislikes_ratio(category_df):
             'maxResults' : 50, #ranges from 1-50
             'regionCode' : country
         }
-        videos = requests.get("https://www.googleapis.com/youtube/v3/videos?key=your_API_key", params=parameters)
+        videos = requests.get("https://www.googleapis.com/youtube/v3/videos?key=your_api_key", params=parameters)
         videos = videos.json()
         items = videos['items']
         #add video information to dictionary
@@ -86,7 +86,7 @@ def plot_likes_dislikes_ratio(category_df):
                 ratio = round(likes / dislikes, 2)
                 video_df['likes/dislikes'].append(ratio)
     video_df = pd.DataFrame(video_df)
-    #do bar plot
+    #make bar plot
     max_ratio = video_df.groupby('country')['likes/dislikes'].max()
     merged = max_ratio.to_frame().merge(video_df, on=['country', 'likes/dislikes'], how='left')
     merge_category = merged.merge(category_df, left_on='category', right_on='id', how='left')
@@ -99,6 +99,7 @@ def plot_likes_dislikes_ratio(category_df):
 
 
 def world_like_dislike_raio(videos_df, categories_df):
+
     likes_df = videos_df.groupby('category')['likes'].sum()
     dislikes_df = videos_df.groupby('category')['dislikes'].sum()
     merged = likes_df.to_frame().merge(dislikes_df.to_frame(), on='category', how='left')
@@ -126,8 +127,8 @@ def world_views_plot(videos_df, categories_df):
 def main():
     video_df = build_df()
     categories_df = build_categories_df()
-    #plot_likes_dislikes_ratio(categories_df)
-    #world_views_plot(video_df, categories_df)
+    plot_likes_dislikes_ratio(categories_df)
+    world_views_plot(video_df, categories_df)
     world_like_dislike_raio(video_df, categories_df)
       
 if __name__ == '__main__':
