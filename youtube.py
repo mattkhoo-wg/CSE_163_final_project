@@ -14,10 +14,10 @@ def build_df():
         parameters = {
             'part' : 'statistics,snippet',
             'chart' : 'mostPopular',
-            'maxResults' : 5, #ranges from 1-50
+            'maxResults' : 50, #ranges from 1-50
             'regionCode' : country
         }
-        videos = requests.get("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyCA3J2YCCTjp8ZlAkJ27zfS02kC-U1GOOk", params=parameters)
+        videos = requests.get("https://www.googleapis.com/youtube/v3/videos?key=your_api_key", params=parameters)
         videos = videos.json()
         items = videos['items']
         #add video information to dictionary
@@ -49,7 +49,7 @@ def build_categories_df():
         'part' : 'snippet',
         'regionCode' : 'US'
     }
-    cat = requests.get('https://www.googleapis.com/youtube/v3/videoCategories?key=AIzaSyCA3J2YCCTjp8ZlAkJ27zfS02kC-U1GOOk', params=parameters)
+    cat = requests.get('https://www.googleapis.com/youtube/v3/videoCategories?key=your_api_key, params=parameters)
     cat = cat.json()
     items = cat['items']
     for category in items:
@@ -66,10 +66,10 @@ def plot_likes_dislikes_ratio(category_df):
         parameters = {
             'part' : 'statistics,snippet',
             'chart' : 'mostPopular',
-            'maxResults' : 5, #ranges from 1-50
+            'maxResults' : 50, #ranges from 1-50
             'regionCode' : country
         }
-        videos = requests.get("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyCA3J2YCCTjp8ZlAkJ27zfS02kC-U1GOOk", params=parameters)
+        videos = requests.get("https://www.googleapis.com/youtube/v3/videos?key=your_API_key", params=parameters)
         videos = videos.json()
         items = videos['items']
         #add video information to dictionary
@@ -110,7 +110,7 @@ def world_like_dislike_raio(videos_df, categories_df):
     plt.xlabel('Category')
     plt.ylabel('Ratio of Like:Dislike') 
     plt.savefig('/Users/matthewkhoo/Desktop/CSE_163_proj/world_like_dislike_ratio.png', bbox_inches='tight') 
-    
+
 
 def world_views_plot(videos_df, categories_df):
     views_df = videos_df.groupby('category')['views'].sum()
