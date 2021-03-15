@@ -95,7 +95,7 @@ def plot_likes_dislikes_ratio(category_df):
     plt.title('Category with Highest Like to Dislike Ratio in each Country')
     plt.xlabel('Country')
     plt.ylabel('Ratio of Like:Dislike') 
-    plt.savefig('/Users/matthewkhoo/Desktop/CSE_163_proj/likes_dislikes_ratio.png', bbox_inches='tight') 
+    plt.savefig('likes_dislikes_ratio.png', bbox_inches='tight') 
 
 
 def world_like_dislike_raio(videos_df, categories_df):
@@ -110,7 +110,7 @@ def world_like_dislike_raio(videos_df, categories_df):
     plt.title('Category by Like:Dislike Ratio')
     plt.xlabel('Category')
     plt.ylabel('Ratio of Like:Dislike') 
-    plt.savefig('/Users/matthewkhoo/Desktop/CSE_163_proj/world_like_dislike_ratio.png', bbox_inches='tight') 
+    plt.savefig('world_like_dislike_ratio.png', bbox_inches='tight') 
 
 
 def world_views_plot(videos_df, categories_df):
@@ -121,7 +121,7 @@ def world_views_plot(videos_df, categories_df):
     plt.title('Category by Total Views')
     plt.xlabel('Category')
     plt.ylabel('Views') 
-    plt.savefig('/Users/matthewkhoo/Desktop/CSE_163_proj/world_views.png', bbox_inches='tight') 
+    plt.savefig('world_views.png', bbox_inches='tight') 
 
 
 def main():
